@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Plumaa Verifier
+
+A web UI to verify proofs of documents, signatures and endorsements generated using Plumaa ID.
 
 ## Getting Started
 
