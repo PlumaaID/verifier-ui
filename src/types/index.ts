@@ -25,8 +25,6 @@ export interface NOM151Conservation {
 }
 
 export interface MerkleizedConservation {
-  txHash: string;
-  network: string;
   merkleRoot: Hex;
   merkleProof: Hex[];
   conservation: NOM151Conservation;
