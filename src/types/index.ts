@@ -7,16 +7,19 @@ export enum HashingAlgorithm {
   SHA256,
 }
 
+interface Conservation {
+  nom151?: NOM151Conservation;
+  merkleized?: MerkleizedConservation;
+  witnessCo?: WitnessCoConservation;
+}
+
 export interface SignatureRequestProof {
   name: string;
   mediatype: string;
   raw: Base64;
   algorithm: HashingAlgorithm;
   hash: Hex;
-  conservation: {
-    nom151?: NOM151Conservation;
-    merkleized?: MerkleizedConservation;
-  };
+  conservation: Conservation;
   signatures: SignatureProof[];
 }
 
@@ -31,10 +34,21 @@ export interface MerkleizedConservation {
   algorithm: string;
 }
 
+export interface WitnessCoConservation {
+  timestamp: string;
+  leafIndex: number;
+  leftHashes: Hex[];
+  rightHashes: Hex[];
+  targetRootHash: Hex;
+}
+
 export interface SignatureProof {
   signature: Base64;
   ocspResponse: Base64;
   certificate: Base64;
+  conservation: Conservation;
+  signatureHash: Hex;
+  hash: Hex;
 }
 
 export const isSignatureRequestProof = (

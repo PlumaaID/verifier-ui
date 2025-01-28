@@ -1,4 +1,3 @@
-import { Dropzone } from "~/components/dropzone";
 import ProofReader from "./_components/proof-reader";
 
 export default function Home() {
