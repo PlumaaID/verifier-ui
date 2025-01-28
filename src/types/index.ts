@@ -48,6 +48,7 @@ export interface SignatureProof {
   certificate: Base64;
   conservation: Conservation;
   signatureHash: Hex;
+  hash: Hex;
 }
 
 export const isSignatureRequestProof = (
