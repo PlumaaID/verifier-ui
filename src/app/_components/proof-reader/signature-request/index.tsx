@@ -37,7 +37,7 @@ const SignatureRequest: FC<Props> = ({ proof }) => {
           </p>
           <CardContent className="flex grow items-center justify-between py-3">
             <p className="text-lg font-semibold tracking-tight my-auto">
-              Documento
+              Documento original
             </p>
             <Button
               variant="outline"
@@ -57,7 +57,7 @@ const SignatureRequest: FC<Props> = ({ proof }) => {
           <Separator />
           <CardContent className="flex grow items-center justify-between py-3">
             <p className="text-lg font-semibold tracking-tight">
-              Digestivo ({proof.algorithm})
+              Digestivo del documento original ({proof.algorithm})
             </p>
             <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
               {proof.hash}
