@@ -31,11 +31,7 @@ import { Badge } from "../ui/badge";
 import SecuredByWitness from "../secured-by-witness";
 import { with0x, without0x } from "~/lib/utils";
 import { SimpleMerkleTree } from "@openzeppelin/merkle-tree";
-import {
-  BytesLike,
-  compare,
-  concat,
-} from "@openzeppelin/merkle-tree/dist/bytes";
+import { compare, concat } from "@openzeppelin/merkle-tree/dist/bytes";
 import { formatLeaf } from "@openzeppelin/merkle-tree/dist/simple";
 
 type Props = {
@@ -43,21 +39,20 @@ type Props = {
   NOM151CertificateASN1?: string;
 };
 
-const sha256 = (data: BytesLike) =>
-  with0x(
-    md.sha256
-      .create()
-      .update(without0x(data.toString()), "raw")
-      .digest()
-      .toHex()
+const sha256 = (data: any) => {
+  return with0x(
+    md.sha256.create().update(without0x(data), "raw").digest().toHex()
   );
+};
 
-function NOM151NodeHash(a: BytesLike, b: BytesLike) {
-  return sha256(concat([a, b].sort(compare)));
+function NOM151NodeHash(a: any, b: any) {
+  return sha256(
+    util.createBuffer(Buffer.from(concat([a, b].sort(compare)))).toHex()
+  );
 }
 
-export function NOM151LeafHash(value: BytesLike) {
-  return sha256(formatLeaf(with0x(value.toString())));
+export function NOM151LeafHash(value: any) {
+  return sha256(formatLeaf(with0x(value)));
 }
 
 const Conservation: FC<Props> = ({ proof, NOM151CertificateASN1 }) => {
@@ -81,12 +76,17 @@ const Conservation: FC<Props> = ({ proof, NOM151CertificateASN1 }) => {
   const isMerkleizedValid = useMemo(() => {
     if (!proof.conservation.merkleized) return false;
 
-    return SimpleMerkleTree.verify(
+    const leaf = NOM151LeafHash(without0x(hash));
+    const merkleProof = proof.conservation.merkleized.merkleProof.map(with0x);
+
+    const valid = SimpleMerkleTree.verify(
       with0x(proof.conservation.merkleized.merkleRoot),
-      NOM151LeafHash(with0x(hash)),
-      proof.conservation.merkleized.merkleProof.map(with0x),
+      leaf,
+      merkleProof,
       NOM151NodeHash
     );
+
+    return valid;
   }, [proof.conservation.merkleized, hash]);
 
   return (
