@@ -1,14 +1,15 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
 import { Dropzone } from "~/components/dropzone";
-import { isSignatureProof, isSignatureRequestProof } from "~/types";
-import SignatureRequest from "./signature-request";
-import Signature from "./signature";
+import {
+  SignatureRequestProof as SignatureRequest,
+  SignatureProof as Signature,
+  isSignatureProof,
+  isSignatureRequestProof,
+} from "@plumaa/verifier";
 import { Button } from "~/components/ui/button";
-import { usePDF } from "react-to-pdf";
 
 const ProofReader = () => {
-  const { toPDF, targetRef } = usePDF({ filename: "proof.pdf" });
   const [files, setFiles] = useState<File[]>([]);
   const [proof, setProof] = useState<any | null>(null);
 
@@ -39,20 +40,12 @@ const ProofReader = () => {
 
     return (
       <div>
-        <div className="flex">
+        <div className="flex mb-4">
           <h1 className="font-bold tracking-tight text-3xl">
             Resultado de la verificación
           </h1>
-          <Button
-            onClick={() => toPDF()}
-            className="ml-auto"
-            variant="outline"
-            size="sm"
-          >
-            Descargar PDF
-          </Button>
         </div>
-        <div ref={targetRef}>{content}</div>
+        <div>{content}</div>
       </div>
     );
   }
